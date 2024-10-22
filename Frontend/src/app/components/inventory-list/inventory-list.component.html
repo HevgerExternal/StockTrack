@@ -1,0 +1,56 @@
+<div class="container mt-3">
+  <div class="mb-3 d-flex justify-content-end">
+    <a class="btn btn-success" [routerLink]="['/inventory/new']">Add New Item</a>
+  </div>
+
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Search items..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
+  </div>
+
+  <div *ngIf="inventoryService.loading | async" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Item Number</th>
+        <th scope="col" (click)="sort('location')">Location</th>
+        <th scope="col">Quantity</th>
+        <th scope="col" (click)="sort('createdAt')">Created At</th>
+        <th scope="col" (click)="sort('updatedAt')">Updated At</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of inventoryItems">
+        <td>{{ item.name }}</td>
+        <td>{{ item.itemNumber }}</td>
+        <td>{{ item.location }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.createdAt | date:'short' }}</td>
+        <td>{{ item.updatedAt | date:'short' }}</td>
+        <td>
+          <a class="btn btn-primary btn-sm" [routerLink]="['/inventory/edit', item.id]">Edit</a>
+          <button class="btn btn-danger btn-sm" (click)="deleteItem(item.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav class="d-flex justify-content-center">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage <= 1">
+        <a class="page-link" href="javascript:void(0);" (click)="changePage(currentPage - 1)">Previous</a>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage >= pageCount">
+        <a class="page-link" href="javascript:void(0);" (click)="changePage(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+</div>
