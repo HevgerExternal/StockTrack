@@ -34,7 +34,7 @@
         <td>{{ item.createdAt | date:'short' }}</td>
         <td>{{ item.updatedAt | date:'short' }}</td>
         <td>
-          <a class="btn btn-primary btn-sm" [routerLink]="['/inventory/edit', item.id]">Edit</a>
+          <a class="btn btn-primary btn-sm me-1" [routerLink]="['/inventory/edit', item.id]">Edit</a>
           <button class="btn btn-danger btn-sm" (click)="deleteItem(item.id)">Delete</button>
         </td>
       </tr>
