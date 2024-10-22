@@ -8,5 +8,18 @@ services:
     volumes:
       - pgdata:/var/lib/postgres/data
 
+
+  inventoryservice:
+    build:
+      context: ./API/src/InventoryService
+    ports:
+      - 5008:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=stocktrack;Username=postgres;Password=postgrespw
+    depends_on:
+      - postgres
+
 volumes:
   pgdata:
+  
