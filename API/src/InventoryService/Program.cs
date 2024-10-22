@@ -3,6 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()  // Allows all origins
+              .AllowAnyMethod()  // Allows all HTTP methods
+              .AllowAnyHeader(); // Allows all headers
+    });
+});
+
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDbContext<InventoryDbContext>(opt => {
@@ -12,6 +24,8 @@ builder.Services.AddDbContext<InventoryDbContext>(opt => {
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 app.MapControllers();
 
