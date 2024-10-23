@@ -42,3 +42,7 @@
     ```
 
 7. You should now be able to access the application at **https://app.stocktrack.local**.
+
+## Postman Collection
+
+The `StockTrack.postman_collection.json` file contains all the endpoints needed for interacting with the StockTrack API. You can import this collection into Postman to easily test and explore the API endpoints.

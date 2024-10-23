@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "c4fa1ef7-f70f-4817-b6cb-868eb0ba2443",
+		"name": "StockTrack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33167632"
+	},
+	"item": [
+		{
+			"name": "Inventory Items",
+			"item": [
+				{
+					"name": "Get all inventory items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{stocktrack_api}}/api/inventory-items",
+							"host": [
+								"{{stocktrack_api}}"
+							],
+							"path": [
+								"api",
+								"inventory-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new inventory item",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let randomItemNumber = 'AB' + Math.floor(1000 + Math.random() * 9000).toString();\r",
+									"\r",
+									"const locations = ['Vejle', 'Aalborg', 'Aarhus', 'Odense'];\r",
+									"let randomLocation = locations[Math.floor(Math.random() * locations.length)];\r",
+									"\r",
+									"let randomQuantity = Math.floor(Math.random() * 31);\r",
+									"\r",
+									"const names = [\r",
+									"    'TurboMax Blender', 'SolarWave Charger', 'AquaPure Water Filter', 'QuickFit Yoga Mat',\r",
+									"    'GlowBeam LED Lamp', 'FlexiGrip Phone Holder', 'BreezeCool Fan', 'EcoFresh Air Purifier',\r",
+									"    'PowerPulse Fitness Tracker', 'SmartSense Thermostat', 'EverCharge Power Bank',\r",
+									"    'SwiftClean Robot Vacuum', 'TrueTone Earbuds', 'SafeGuard Security Camera',\r",
+									"    'HydroBoost Shower Head', 'ClearView Glasses Cleaner', 'UltraSlim Wallet',\r",
+									"    'PureBalance Scale', 'SonicWave Toothbrush', 'ZenComfort Neck Pillow',\r",
+									"    'FusionPro Gaming Mouse', 'RapidBrew Coffee Maker', 'WaveFlex Headphones',\r",
+									"    'ChargeTech Wireless Pad', 'InstaBrew Tea Infuser', 'GlowBright Night Light',\r",
+									"    'FreshBreeze Dehumidifier', 'QuickLock Smart Lock', 'PowerGrip Resistance Bands',\r",
+									"    'AquaGlow Pool Light', 'SwiftDry Hair Towel', 'SnapFit Water Bottle',\r",
+									"    'PureMist Humidifier', 'QuickSnap Car Mount', 'ThermoFlex Heat Pad',\r",
+									"    'CrystalClear Screen Protector', 'LiteBeam Flashlight', 'MaxCharge USB Hub',\r",
+									"    'HydroStream Water Gun', 'VaporMist Facial Steamer'\r",
+									"];\r",
+									"let randomName = names[Math.floor(Math.random() * names.length)];\r",
+									"\r",
+									"pm.variables.set(\"itemNumber\", randomItemNumber);\r",
+									"pm.variables.set(\"location\", randomLocation);\r",
+									"pm.variables.set(\"quantity\", randomQuantity);\r",
+									"pm.variables.set(\"name\", randomName);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"createdItemId\", jsonData.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"itemNumber\": \"{{itemNumber}}\",\r\n    \"location\": \"{{location}}\",\r\n    \"quantity\": {{quantity}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stocktrack_api}}/api/inventory-items",
+							"host": [
+								"{{stocktrack_api}}"
+							],
+							"path": [
+								"api",
+								"inventory-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all inventory item by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{stocktrack_api}}/api/inventory-items/{{createdItemId}}",
+							"host": [
+								"{{stocktrack_api}}"
+							],
+							"path": [
+								"api",
+								"inventory-items",
+								"{{createdItemId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new inventory item - manual",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test product\",\r\n    \"itemNumber\": \"AB4482\",\r\n    \"location\": \"Odense\",\r\n    \"quantity\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stocktrack_api}}/api/inventory-items",
+							"host": [
+								"{{stocktrack_api}}"
+							],
+							"path": [
+								"api",
+								"inventory-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update inventory item by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Item name\",\r\n    \"location\": \"Item location\",\r\n    \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stocktrack_api}}/api/inventory-items/{{createdItemId}}",
+							"host": [
+								"{{stocktrack_api}}"
+							],
+							"path": [
+								"api",
+								"inventory-items",
+								"{{createdItemId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete inventory item by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Aalborg 22B\",\r\n    \"quantity\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{stocktrack_api}}/api/inventory-items/{{createdItemId}}",
+							"host": [
+								"{{stocktrack_api}}"
+							],
+							"path": [
+								"api",
+								"inventory-items",
+								"{{createdItemId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "stocktrack_api",
+			"value": "https://api.stocktrack.local"
+		},
+		{
+			"key": "createdItemId",
+			"value": "ba2925d2-7d0f-4979-8fc2-d553a9a344d7",
+			"type": "string"
+		}
+	]
+}
