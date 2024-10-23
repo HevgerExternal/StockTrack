@@ -4,7 +4,7 @@
     <a class="btn btn-success" [routerLink]="['/inventory/new']">Add New Item</a>
   </div>
 
-  <div *ngIf="inventoryItems.length > 0" class="mb-3">
+  <div class="mb-3">
     <input type="text" class="form-control" placeholder="Search items..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
   </div>
 
