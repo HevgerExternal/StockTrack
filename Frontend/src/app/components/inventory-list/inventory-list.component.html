@@ -1,19 +1,24 @@
 <div class="container mt-3">
+
   <div class="mb-3 d-flex justify-content-end">
     <a class="btn btn-success" [routerLink]="['/inventory/new']">Add New Item</a>
   </div>
 
-  <div class="mb-3">
+  <div *ngIf="inventoryItems.length > 0" class="mb-3">
     <input type="text" class="form-control" placeholder="Search items..." [(ngModel)]="searchTerm" (ngModelChange)="onSearch()">
   </div>
 
-  <div *ngIf="inventoryService.loading | async" class="text-center">
+  <div *ngIf="(inventoryService.loading | async) === true" class="text-center">
     <div class="spinner-border" role="status">
       <span class="sr-only"></span>
     </div>
   </div>
 
-  <table class="table table-striped">
+  <div *ngIf="(inventoryService.loading | async) === false && inventoryItems.length === 0" class="alert alert-warning text-center">
+    <h5>No items available.</h5>
+  </div>
+
+  <table *ngIf="(inventoryService.loading | async) === false && inventoryItems.length > 0" class="table table-striped">
     <thead>
       <tr>
         <th scope="col">Name</th>
@@ -41,12 +46,11 @@
     </tbody>
   </table>
 
-  <nav class="d-flex justify-content-center">
+  <nav *ngIf="(inventoryService.loading | async) === false && inventoryItems.length > 0" class="d-flex justify-content-center">
     <ul class="pagination">
       <li class="page-item" [class.disabled]="currentPage <= 1">
         <a class="page-link" href="javascript:void(0);" (click)="changePage(currentPage - 1)">Previous</a>
       </li>
-
       <li class="page-item" [class.disabled]="currentPage >= pageCount">
         <a class="page-link" href="javascript:void(0);" (click)="changePage(currentPage + 1)">Next</a>
       </li>

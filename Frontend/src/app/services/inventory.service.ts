@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryService {
-  private apiUrl = 'http://localhost:5008/api/inventory-items';
+  private apiUrl = `${environment.apiUrl}/api/inventory-items`;
   loading = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {}

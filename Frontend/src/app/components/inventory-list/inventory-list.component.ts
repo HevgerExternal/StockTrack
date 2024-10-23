@@ -15,6 +15,8 @@ export class InventoryListComponent implements OnInit {
   pageCount: number = 1;
   searchTerm: string = '';
   orderBy: string = '';
+  totalCount: number = 0;
+  showEmptyMessage: boolean = false;
 
   constructor(public inventoryService: InventoryService, private toastr: ToastrService) {}
 
@@ -26,7 +28,7 @@ export class InventoryListComponent implements OnInit {
     const params = {
       pageNumber: this.currentPage,
       pageSize: this.pageSize,
-      orderBy: this.orderBy,
+      orderBy: '',
       searchTerm: searchTerm
     };
     this.inventoryService.getInventoryItems(params).subscribe({
@@ -34,6 +36,8 @@ export class InventoryListComponent implements OnInit {
         this.inventoryItems = data.result;
         this.currentPage = data.currentPage;
         this.pageCount = data.pageCount;
+        this.totalCount = data.totalCount;
+        this.showEmptyMessage = this.totalCount === 0;
       },
       error: (error) => {
         console.error('Failed to load items', error);
